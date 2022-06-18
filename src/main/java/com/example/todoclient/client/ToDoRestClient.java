@@ -20,8 +20,8 @@ import java.util.Objects;
 @Service
 public class ToDoRestClient {
 
-    private RestTemplate restTemplate;
-    private ToDoRestClientProperties properties;
+    private final RestTemplate restTemplate;
+    private final ToDoRestClientProperties properties;
 
     public ToDoRestClient(ToDoRestClientProperties properties) {
         this.restTemplate = new RestTemplate();
@@ -31,13 +31,9 @@ public class ToDoRestClient {
 
     public Iterable<ToDo> findAll() throws URISyntaxException {
         RequestEntity<Iterable<ToDo>> requestEntity =
-                new RequestEntity<Iterable<ToDo>>(HttpMethod.GET, new URI(properties.getUrl() +
-                        properties.getBasePath()));
-
-        ResponseEntity<Iterable<ToDo>> response = restTemplate.exchange(requestEntity,
-                new ParameterizedTypeReference<Iterable<ToDo>>() {
-                });
-
+                new RequestEntity<Iterable<ToDo>>(HttpMethod.GET, new URI(properties.getUrl() + properties.getBasePath()));
+        ResponseEntity<Iterable<ToDo>> response = restTemplate.exchange(requestEntity, new ParameterizedTypeReference<Iterable<ToDo>>() {
+        });
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         }
